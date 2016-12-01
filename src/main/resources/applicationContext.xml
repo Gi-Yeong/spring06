@@ -4,8 +4,21 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- DBCP-->
+    <bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
+        <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="scott"/>
+        <property name="password" value="tiger"/>
+    </bean>
+
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:/sqlMapConfig.xml"/>
+    </bean>
 
     <!-- Dao-->
-    <bean name="dao" class="com.hb.model.GuestDao"/>
+    <bean name="dao" class="com.hb.model.GuestDao">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
 
 </beans>

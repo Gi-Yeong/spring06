@@ -7,7 +7,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ListController implements Controller {
+public class DeleteController implements Controller {
     private GuestDao dao;
 
     public void setDao(GuestDao dao) {
@@ -16,8 +16,8 @@ public class ListController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        ModelAndView mav = new ModelAndView("/guest/list");
-        mav.addObject("alist", dao.selectAll());
-        return mav;
+        dao.deleteOne(Integer.parseInt(httpServletRequest.getParameter("idx")));
+
+        return new ModelAndView("redirect:list.hb");
     }
 }
